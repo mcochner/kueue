@@ -65,7 +65,7 @@ import (
 const (
 	FrameworkName                  = "pod"
 	ConditionTypeTerminationTarget = "TerminationTarget"
-	errMsgIncorrectGroupRoleCount  = "pod group can't include more than 10 roles"
+	errMsgIncorrectGroupRoleCount  = "pod group can't include more than 40 roles"
 )
 
 // Event reasons used by the pod controller
