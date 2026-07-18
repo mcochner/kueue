@@ -203,6 +203,11 @@ func (r *elasticJobUngater) podsToUngate(ctx context.Context, wl *kueue.Workload
 	ungatedPerPodSet := make(map[kueue.PodSetReference]int32)
 	for i := range podList.Items {
 		p := &podList.Items[i]
+		// Terminal (Succeeded/Failed) pods remain in the API but no longer
+		// occupy an admitted slot, so they must not consume the cap.
+		if utilpod.IsTerminated(p) {
+			continue
+		}
 		ps := kueue.PodSetReference(p.Labels[constants.PodSetLabel])
 		if utilpod.HasGate(p, kueue.ElasticJobSchedulingGate) {
 			gatedPerPodSet[ps] = append(gatedPerPodSet[ps], p)
